@@ -1,0 +1,12 @@
+# 应用打包所需依赖
+# 安装命令：pip install -r requirements-build.txt
+
+# 应用运行依赖
+Pillow>=10.0.0
+
+# 打包工具
+pyinstaller>=6.0.0
+
+# 可选：压缩工具（减小打包体积）
+# 注意：需要系统安装 UPX (https://upx.github.io/)
+# pyinstaller 会自动检测并使用 UPX
