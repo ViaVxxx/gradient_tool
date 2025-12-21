@@ -1,6 +1,18 @@
 # Gradient Tool - 渐变色图像生成工具
 
-一个功能强大、用户友好的渐变色图像生成桌面应用，支持多种渐变类型和专业纹理效果。
+<div align="center">
+
+![Python Version](https://img.shields.io/badge/python-3.11%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey)
+
+**一个功能强大、用户友好的渐变色图像生成桌面应用**
+
+*支持多种渐变类型和专业 Perlin 噪声纹理效果*
+
+[快速开始](#-快速开始) • [功能特性](#-核心特性) • [文档](USAGE.md) • [打包指南](PACKAGING.md)
+
+</div>
 
 ## ✨ 核心特性
 
