@@ -34,6 +34,19 @@ def check_python_version():
     return True
 
 
+def check_tkinter():
+    """检查Tkinter环境"""
+    try:
+        import tkinter
+        import _tkinter
+        print(f"Tkinter已安装: {tkinter.__file__} ✓")
+        return True
+    except ImportError as e:
+        print(f"[警告] Tkinter检查失败: {e}")
+        print("打包后的程序可能无法运行")
+        return True # 允许继续，但给出警告
+
+
 def install_pyinstaller():
     """安装PyInstaller"""
     try:
@@ -58,7 +71,13 @@ def clean_build_dirs():
         dir_path = Path(dir_name)
         if dir_path.exists():
             print(f"删除 {dir_name}/ 目录...")
-            shutil.rmtree(dir_path)
+            try:
+                shutil.rmtree(dir_path)
+            except PermissionError:
+                print(f"  ⚠️  无法删除 {dir_name}/（文件被占用），跳过...")
+                print(f"  提示: 请关闭正在运行的 GradientTool.exe")
+            except Exception as e:
+                print(f"  ⚠️  删除失败: {e}")
     print("清理完成 ✓")
 
 
@@ -142,30 +161,35 @@ def main():
     print_header("Gradient Tool - 应用打包工具")
 
     # 步骤1：检查Python版本
-    print_step(1, 5, "检查Python环境...")
+    print_step(1, 6, "检查Python环境...")
     if not check_python_version():
         return 1
     print()
 
-    # 步骤2：检查并安装PyInstaller
-    print_step(2, 5, "检查PyInstaller...")
+    # 步骤2：检查Tkinter
+    print_step(2, 6, "检查Tkinter环境...")
+    check_tkinter()
+    print()
+
+    # 步骤3：检查并安装PyInstaller
+    print_step(3, 6, "检查PyInstaller...")
     if not install_pyinstaller():
         return 1
     print()
 
-    # 步骤3：清理旧的构建文件
-    print_step(3, 5, "清理旧的构建文件...")
+    # 步骤4：清理旧的构建文件
+    print_step(4, 6, "清理旧的构建文件...")
     clean_build_dirs()
     print()
 
-    # 步骤4：开始打包
-    print_step(4, 5, "打包应用...")
+    # 步骤5：开始打包
+    print_step(5, 6, "打包应用...")
     if not build_app():
         return 1
     print()
 
-    # 步骤5：显示成功信息
-    print_step(5, 5, "完成！")
+    # 步骤6：显示成功信息
+    print_step(6, 6, "完成！")
     show_success_info()
 
     return 0

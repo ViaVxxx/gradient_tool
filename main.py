@@ -3,8 +3,31 @@ import tkinter as tk
 from ui.main_window import MainWindow
 
 
+import sys
+import os
+
+def setup_tkinter_env():
+    """Set TCL/TK environment variables if needed."""
+    try:
+        import tkinter
+        return
+    except ImportError:
+        pass
+
+    # Try to find TCL/TK in standard Python locations
+    base_prefix = getattr(sys, 'base_prefix', sys.prefix)
+    tcl_path = os.path.join(base_prefix, 'tcl', 'tcl8.6')
+    tk_path = os.path.join(base_prefix, 'tcl', 'tk8.6')
+
+    if os.path.exists(tcl_path):
+        os.environ['TCL_LIBRARY'] = tcl_path
+    if os.path.exists(tk_path):
+        os.environ['TK_LIBRARY'] = tk_path
+
+
 def main():
     """Initialize and run the application."""
+    setup_tkinter_env()
     root = tk.Tk()
     app = MainWindow(root)
 

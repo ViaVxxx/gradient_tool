@@ -186,6 +186,45 @@ exe = EXE(
 # macOS: Tkinter 默认包含
 ```
 
+### 2a. 多 Python 版本导致的 Tkinter 冲突 ⭐
+
+**症状：**
+- 打包时警告 "tkinter installation is broken"
+- 运行时错误 "Tcl data directory not found"
+- 错误信息包含 `_MEI.../_tcl_data` 或 `_tk_data`
+
+**根本原因：**
+系统安装了多个 Python 版本，环境变量 `TCL_LIBRARY` 和 `TK_LIBRARY` 指向错误的版本。
+
+**解决方法（推荐）：**
+
+1. **清理系统环境变量：**
+   ```
+   - 打开"编辑系统环境变量"（Windows搜索）
+   - 在"系统变量"中查找并删除：
+     • TCL_LIBRARY
+     • TK_LIBRARY
+   - 重启命令行/PowerShell
+   ```
+
+2. **使用 onedir 模式打包（更稳定）：**
+   ```bash
+   pyinstaller gradient_tool_onedir.spec --clean
+   ```
+
+   onedir 模式对 Tkinter 支持更好，避免单文件模式的路径问题。
+
+3. **验证修复：**
+   ```bash
+   # 测试 Tkinter 是否正常
+   python -c "import tkinter; print('Tkinter OK')"
+
+   # 重新打包
+   python build_app.py
+   ```
+
+**说明：** 现代 Python 能自动找到正确的 TCL/TK 路径，手动设置环境变量在多版本环境下反而会造成冲突。
+
 ### 3. Pillow相关错误
 
 **症状：** 错误信息显示 PIL 或图像处理相关问题
@@ -233,6 +272,28 @@ xattr -cr "dist/Gradient Tool.app"
 # 方法3：对应用进行签名（需要 Apple Developer ID）
 codesign --force --deep --sign - "dist/Gradient Tool.app"
 ```
+
+### 7. 运行时报错 "Tk data directory not found"
+
+**症状：**
+```
+Failed to execute script 'pyi_rth_tkinter' due to unhandled exception: Tk data directory "...\AppData\Local\Temp\_MEI...\_tk_data" not found.
+```
+
+**原因：**
+PyInstaller 在打包时未能正确包含 Tkinter 的数据文件，或者打包配置中的路径映射不正确。
+
+**解决方法：**
+修改 `gradient_tool.spec` 文件，确保 `datas` 列表正确映射了 TCL 和 TK 的库路径。
+
+```python
+# 确保 datas 包含以下映射
+datas=[
+    (tcl_lib, '_tcl_data'),
+    (tk_lib, '_tk_data'),
+],
+```
+注意：旧版本的 PyInstaller 可能使用 `tcl` 和 `tk` 作为目标目录名，但较新版本的 hook 期望 `_tcl_data` 和 `_tk_data`。
 
 ## 📦 分发说明
 
