@@ -8,21 +8,22 @@ import os
 
 def setup_tkinter_env():
     """Set TCL/TK environment variables if needed."""
-    try:
-        import tkinter
-        return
-    except ImportError:
-        pass
-
-    # Try to find TCL/TK in standard Python locations
+    import sys
+    import os
+    
+    # Set TCL/TK library paths
     base_prefix = getattr(sys, 'base_prefix', sys.prefix)
-    tcl_path = os.path.join(base_prefix, 'tcl', 'tcl8.6')
-    tk_path = os.path.join(base_prefix, 'tcl', 'tk8.6')
-
-    if os.path.exists(tcl_path):
-        os.environ['TCL_LIBRARY'] = tcl_path
-    if os.path.exists(tk_path):
-        os.environ['TK_LIBRARY'] = tk_path
+    tcl_dir = os.path.join(base_prefix, 'tcl')
+    
+    # Find TCL and TK directories
+    if os.path.exists(tcl_dir):
+        for item in os.listdir(tcl_dir):
+            item_path = os.path.join(tcl_dir, item)
+            if os.path.isdir(item_path):
+                if item.startswith('tcl8'):
+                    os.environ['TCL_LIBRARY'] = item_path
+                elif item.startswith('tk8'):
+                    os.environ['TK_LIBRARY'] = item_path
 
 
 def main():

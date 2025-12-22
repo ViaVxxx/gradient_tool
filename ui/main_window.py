@@ -35,7 +35,7 @@ class MainWindow:
         """Initialize main window."""
         self.root = root
         self.root.title("Gradient Tool - 渐变色图像生成器")
-        self.root.geometry("1200x800")
+        self.root.geometry("1200x1000")  # 增加高度到1000
 
         # Initialize components
         self.engine = GradientEngine(800, 600)
@@ -48,6 +48,10 @@ class MainWindow:
         self.current_image = None
         self.tk_image = None
         self.selected_stop_index = 0
+        
+        # 添加防抖机制
+        self.render_timer = None
+        self.render_delay = 100  # 100ms 延迟
 
         # Setup UI
         self._setup_ui()
@@ -169,7 +173,7 @@ class MainWindow:
 
         # Presets
         presets_frame = ttk.LabelFrame(parent, text="预设", padding=10)
-        presets_frame.pack(fill=tk.BOTH, expand=True, pady=(0, 10))
+        presets_frame.pack(fill=tk.X, pady=(0, 10))  # 改为 fill=tk.X 而不是 expand=True
 
         # Category selector
         category_frame = ttk.Frame(presets_frame)
@@ -183,15 +187,15 @@ class MainWindow:
         category_combo.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
         category_combo.bind('<<ComboboxSelected>>', self.on_category_change)
 
-        # Preset list
+        # Preset list - 限制高度
         list_frame = ttk.Frame(presets_frame)
-        list_frame.pack(fill=tk.BOTH, expand=True)
+        list_frame.pack(fill=tk.X, pady=(0, 5))
 
         scrollbar = ttk.Scrollbar(list_frame)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
-        self.preset_listbox = tk.Listbox(list_frame, yscrollcommand=scrollbar.set)
-        self.preset_listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        self.preset_listbox = tk.Listbox(list_frame, yscrollcommand=scrollbar.set, height=8)  # 限制高度为8行
+        self.preset_listbox.pack(side=tk.LEFT, fill=tk.X, expand=True)
         self.preset_listbox.bind('<<ListboxSelect>>', self.on_preset_select)
 
         scrollbar.config(command=self.preset_listbox.yview)
@@ -319,13 +323,22 @@ class MainWindow:
     def on_angle_change(self, value):
         """Handle angle change."""
         self.state.angle = int(float(value))
-        self.render_gradient()
+        self.delayed_render()
 
     def on_effect_change(self, value):
         """Handle effect parameter change."""
         self.state.noise_intensity = self.noise_var.get()
         self.state.vignette_intensity = self.vignette_var.get()
-        self.render_gradient()
+        self.delayed_render()
+        
+    def delayed_render(self):
+        """延迟渲染，避免频繁更新造成卡顿"""
+        # 取消之前的定时器
+        if self.render_timer:
+            self.root.after_cancel(self.render_timer)
+        
+        # 设置新的定时器
+        self.render_timer = self.root.after(self.render_delay, self.render_gradient)
 
     def update_preset_list(self):
         """Update preset listbox."""
