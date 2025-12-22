@@ -1,0 +1,80 @@
+    return {
+      background: `radial-gradient(circle, ${stops})`
+    }
+  }
+}
+
+// 加载预设列表
+async function loadPresets() {
+  try {
+    presets.value = await window.pywebview.api.get_presets()
+  } catch (error) {
+    console.error('加载预设失败:', error)
+  }
+}
+
+// 组件挂载
+onMounted(() => {
+  loadPresets()
+  generateGradient()
+})
+
+// 监听变化自动更新预览
+watch([gradientType, angle, colorStops], () => {
+  // 实时预览会自动更新，无需手动调用
+}, { deep: true })
+</script>
+
+<style>
+/* 自定义滑块样式 */
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+  transition: all 0.2s;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.6);
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+  transition: all 0.2s;
+}
+
+.slider::-moz-range-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.6);
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(243, 244, 246, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #5568d3 0%, #6a408b 100%);
+}
+</style>

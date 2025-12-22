@@ -1,0 +1,127 @@
+{
+  "favorites": [
+    {
+      "id": "1a6acc1a723d",
+      "name": "渐变_20251222_133754",
+      "created_at": "2025-12-22T13:37:54.847945",
+      "gradient_type": "linear",
+      "angle": 90,
+      "stops": [
+        [
+          0.0,
+          "#667eea"
+        ],
+        [
+          1.0,
+          "#764ba2"
+        ]
+      ],
+      "noise_intensity": 0.0,
+      "vignette_intensity": 0.0,
+      "width": 800,
+      "height": 600,
+      "image_path": "favorites\\images\\1a6acc1a723d.png",
+      "thumbnail_path": "favorites\\thumbnails\\1a6acc1a723d.png"
+    },
+    {
+      "id": "1f1b075a50d0",
+      "name": "渐变_20251222_133800",
+      "created_at": "2025-12-22T13:38:00.918567",
+      "gradient_type": "linear",
+      "angle": 90,
+      "stops": [
+        [
+          0.0,
+          "#89cff0"
+        ],
+        [
+          1.0,
+          "#d4f1f4"
+        ]
+      ],
+      "noise_intensity": 0.0,
+      "vignette_intensity": 0.0,
+      "width": 800,
+      "height": 600,
+      "image_path": "favorites\\images\\1f1b075a50d0.png",
+      "thumbnail_path": "favorites\\thumbnails\\1f1b075a50d0.png"
+    },
+    {
+      "id": "e3d848692ce8",
+      "name": "渐变_20251222_134500",
+      "created_at": "2025-12-22T13:45:00.972215",
+      "gradient_type": "linear",
+      "angle": 45,
+      "stops": [
+        [
+          0.0,
+          "#ff6b35"
+        ],
+        [
+          1.0,
+          "#004e89"
+        ]
+      ],
+      "noise_intensity": 0.0,
+      "vignette_intensity": 0.0,
+      "width": 800,
+      "height": 600,
+      "image_path": "favorites\\images\\e3d848692ce8.png",
+      "thumbnail_path": "favorites\\thumbnails\\e3d848692ce8.png"
+    },
+    {
+      "id": "76c708627c2e",
+      "name": "渐变_20251222_134504",
+      "created_at": "2025-12-22T13:45:04.115699",
+      "gradient_type": "linear",
+      "angle": 90,
+      "stops": [
+        [
+          0.0,
+          "#ff0000"
+        ],
+        [
+          0.33,
+          "#00ff00"
+        ],
+        [
+          0.67,
+          "#0000ff"
+        ],
+        [
+          1.0,
+          "#ff00ff"
+        ]
+      ],
+      "noise_intensity": 0.0,
+      "vignette_intensity": 0.0,
+      "width": 800,
+      "height": 600,
+      "image_path": "favorites\\images\\76c708627c2e.png",
+      "thumbnail_path": "favorites\\thumbnails\\76c708627c2e.png"
+    },
+    {
+      "id": "f24f4b01ea10",
+      "name": "渐变_20251222_140524",
+      "created_at": "2025-12-22T14:05:24.187828",
+      "gradient_type": "linear",
+      "angle": 90,
+      "stops": [
+        [
+          0.0,
+          "#ff0844"
+        ],
+        [
+          1.0,
+          "#00d4ff"
+        ]
+      ],
+      "noise_intensity": 0.0,
+      "vignette_intensity": 0.0,
+      "width": 800,
+      "height": 600,
+      "image_path": "favorites\\images\\f24f4b01ea10.png",
+      "thumbnail_path": "favorites\\thumbnails\\f24f4b01ea10.png"
+    }
+  ]
+}

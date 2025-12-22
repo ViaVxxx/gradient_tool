@@ -1,0 +1,236 @@
+<template>
+  <div class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+    <!-- 现代化头部 -->
+    <header class="backdrop-blur-xl bg-white/70 border-b border-white/20 shadow-lg shadow-indigo-500/10">
+      <div class="max-w-7xl mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+              </svg>
+            </div>
+            <div>
+              <h1 class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                Gradient Tool
+              </h1>
+              <p class="text-sm text-gray-500">专业渐变图像生成器</p>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-3">
+            <button @click="randomGradient"
+                    class="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-medium shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 transition-all duration-300 hover:scale-105">
+              <span class="flex items-center space-x-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                <span>随机生成</span>
+              </span>
+            </button>
+
+            <button @click="exportImage"
+                    class="px-4 py-2 rounded-xl bg-white/80 backdrop-blur-sm text-indigo-600 font-medium border border-indigo-200 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
+              <span class="flex items-center space-x-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                <span>导出</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="max-w-7xl mx-auto px-6 py-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- 左侧控制面板 -->
+        <div class="lg:col-span-1 space-y-6">
+
+          <!-- 渐变类型卡片 -->
+          <div class="backdrop-blur-xl bg-white/70 rounded-2xl shadow-xl shadow-gray-200/50 p-6 border border-white/20">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">渐变类型</h3>
+            <div class="grid grid-cols-2 gap-3">
+              <button
+                v-for="type in gradientTypes"
+                :key="type.value"
+                @click="gradientType = type.value"
+                :class="[
+                  'p-4 rounded-xl font-medium transition-all duration-300',
+                  gradientType === type.value
+                    ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-lg shadow-indigo-500/30'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                ]">
+                {{ type.label }}
+              </button>
+            </div>
+          </div>
+
+          <!-- 色标编辑器 -->
+          <div class="backdrop-blur-xl bg-white/70 rounded-2xl shadow-xl shadow-gray-200/50 p-6 border border-white/20">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-lg font-semibold text-gray-800">色标</h3>
+              <button @click="addColorStop"
+                      class="px-3 py-1.5 rounded-lg bg-indigo-100 text-indigo-600 text-sm font-medium hover:bg-indigo-200 transition-colors">
+                + 添加
+              </button>
+            </div>
+
+            <div class="space-y-3">
+              <div v-for="(stop, index) in colorStops" :key="index"
+                   class="flex items-center space-x-3 p-3 rounded-xl bg-gray-50/50 hover:bg-gray-100/50 transition-colors">
+                <input
+                  type="color"
+                  v-model="stop.hex"
+                  @change="updateColorFromHex(index)"
+                  class="w-12 h-12 rounded-lg cursor-pointer border-2 border-gray-200 hover:border-indigo-400 transition-colors">
+
+                <div class="flex-1">
+                  <input
+                    type="range"
+                    v-model.number="stop.position"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider">
+                  <div class="text-xs text-gray-500 mt-1">
+                    位置: {{ Math.round(stop.position * 100) }}%
+                  </div>
+                </div>
+
+                <button v-if="colorStops.length > 2"
+                        @click="removeColorStop(index)"
+                        class="p-2 rounded-lg text-red-500 hover:bg-red-50 transition-colors">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 角度控制（仅线性渐变） -->
+          <div v-if="gradientType === 'linear'"
+               class="backdrop-blur-xl bg-white/70 rounded-2xl shadow-xl shadow-gray-200/50 p-6 border border-white/20">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">角度</h3>
+            <div class="space-y-3">
+              <input
+                type="range"
+                v-model.number="angle"
+                min="0"
+                max="360"
+                step="1"
+                class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider">
+              <div class="text-center text-2xl font-bold text-indigo-600">
+                {{ angle }}°
+              </div>
+            </div>
+          </div>
+
+          <!-- 纹理效果 -->
+          <div class="backdrop-blur-xl bg-white/70 rounded-2xl shadow-xl shadow-gray-200/50 p-6 border border-white/20">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">纹理效果</h3>
+            <div class="space-y-3">
+              <button
+                v-for="effect in effects"
+                :key="effect.value"
+                @click="applyEffect(effect.value)"
+                class="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-gray-50 to-gray-100 hover:from-indigo-50 hover:to-purple-50 text-gray-700 hover:text-indigo-600 font-medium transition-all duration-300 hover:shadow-md text-left">
+                <div class="flex items-center justify-between">
+                  <span>{{ effect.label }}</span>
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- 预设库 -->
+          <div class="backdrop-blur-xl bg-white/70 rounded-2xl shadow-xl shadow-gray-200/50 p-6 border border-white/20">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">预设渐变</h3>
+            <div class="grid grid-cols-2 gap-2 max-h-96 overflow-y-auto">
+              <button
+                v-for="preset in presets"
+                :key="preset.name"
+                @click="loadPreset(preset)"
+                class="group relative h-16 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105">
+                <div
+                  class="absolute inset-0"
+                  :style="getPresetStyle(preset)">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2">
+                  <span class="text-xs text-white font-medium truncate">{{ preset.name }}</span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧预览区域 -->
+        <div class="lg:col-span-2">
+          <div class="backdrop-blur-xl bg-white/70 rounded-2xl shadow-2xl shadow-gray-200/50 p-6 border border-white/20">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-lg font-semibold text-gray-800">预览</h3>
+              <div class="flex items-center space-x-2 text-sm text-gray-500">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <span>800 × 600</span>
+              </div>
+            </div>
+
+            <!-- 渐变预览画布 -->
+            <div class="relative rounded-2xl overflow-hidden shadow-2xl" style="aspect-ratio: 4/3;">
+              <div
+                v-if="!generatedImage"
+                class="absolute inset-0 flex items-center justify-center"
+                :style="previewStyle">
+                <div class="text-center">
+                  <svg class="w-16 h-16 mx-auto text-white/50 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                  </svg>
+                  <p class="text-white/70 font-medium">实时预览</p>
+                </div>
+              </div>
+
+              <img
+                v-else
+                :src="generatedImage"
+                alt="Generated gradient"
+                class="absolute inset-0 w-full h-full object-cover">
+
+              <!-- 生成中加载状态 -->
+              <div v-if="isGenerating"
+                   class="absolute inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center">
+                <div class="text-center">
+                  <div class="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-3"></div>
+                  <p class="text-white font-medium">生成中...</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="flex space-x-3 mt-6">
+              <button @click="generateGradient"
+                      :disabled="isGenerating"
+                      class="flex-1 px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-medium shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed">
+                <span class="flex items-center justify-center space-x-2">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <span>生成渐变</span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</template>
+
+<script setup>

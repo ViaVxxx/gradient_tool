@@ -1,4 +1,9 @@
-# Python
+# =============================================================================
+# Gradient Tool - .gitignore
+# 适用于分离后的 Web 版本和 Tkinter 版本
+# =============================================================================
+
+# Python 基础
 __pycache__/
 *.py[cod]
 *$py.class
@@ -6,123 +11,216 @@ __pycache__/
 .Python
 *.egg-info/
 *.egg
+*.pyc
+*.pyo
 
 # 虚拟环境
 .venv*/
 venv/
 ENV/
 env/
+.env
 
-# 构建和打包相关
+# =============================================================================
+# 构建和分发相关
+# =============================================================================
+
+# PyInstaller 构建文件
 build/
 dist/
 *.spec
+
+# 安装包文件
 *.exe
 *.msi
 *.dmg
 *.pkg
+*.deb
+*.rpm
 installer/
 *.iss
 
-# 批处理和脚本
-*.bat
-*.sh
+# 构建脚本和临时文件
 build_*.py
-check_env.py
-pyi_rth_*.py
+build_*.bat
 runtime_hook.py
-start_web.py
-start_web_en.bat
-run_debug.bat
+pyi_rth_*.py
 
+# =============================================================================
 # IDE 和编辑器
+# =============================================================================
+
+# VSCode
 .vscode/
+*.code-workspace
+
+# PyCharm / IntelliJ
 .idea/
+
+# Kiro IDE
 .kiro/
+
+# 其他编辑器
 *.swp
 *.swo
 *~
 .vs/
+*.sublime-*
 
-# 操作系统
+# =============================================================================
+# 操作系统文件
+# =============================================================================
+
+# macOS
 .DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
 Thumbs.db
-desktop.ini
+ehthumbs.db
+Desktop.ini
 *.lnk
 
-# 文档和演示文件（保留核心文档）
-RELEASE_NOTES_*.md
-TEXTURE_EFFECTS.md
-USAGE.md
-texture_demos/
-demos/
-screenshots/
+# Linux
+*~
 
+# =============================================================================
 # 日志和临时文件
+# =============================================================================
+
+# 日志文件
 *.log
+logs/
+
+# 临时文件
 *.tmp
+*.temp
 *.bak
 *.backup
 *_old.*
 *_backup.*
+*_temp.*
+
+# 测试生成的图片
 test_*.png
 temp_*.png
+output_*.png
+gradient_*.png
 
-# 配置文件
-*.ini
-*.cfg
-*.conf
+# =============================================================================
+# 用户数据和配置
+# =============================================================================
 
-# 资源和媒体文件
-assets/
-icons/
-*.ico
-*.icns
-*.png
-*.jpg
-*.jpeg
-*.gif
-*.bmp
+# 用户收藏数据（可选择性忽略）
+# favorites/
+# 注释掉上面这行如果你想跟踪收藏数据
+
+# 用户配置文件
+config.ini
+settings.json
+user_preferences.json
+
+# =============================================================================
+# Web 版本相关
+# =============================================================================
+
+# Node.js 依赖
+web-version/web/node_modules/
+web-version/web/package-lock.json
+web-version/web/yarn.lock
+web-version/web/pnpm-lock.yaml
+
+# 前端构建输出
+web-version/web/dist/
+web-version/web/build/
+
+# 前端缓存和临时文件
+web-version/web/.cache/
+web-version/web/.parcel-cache/
+web-version/web/.vite/
+web-version/web/.nuxt/
+web-version/web/.next/
+
+# 前端环境变量
+web-version/web/.env.local
+web-version/web/.env.development.local
+web-version/web/.env.test.local
+web-version/web/.env.production.local
+
+# =============================================================================
+# 开发和测试文件
+# =============================================================================
 
 # 测试文件
 test_*.py
 *_test.py
 tests/
+__tests__/
 
-# 收藏夹数据（用户生成的内容）
-favorites/
+# 演示和截图
+demos/
+screenshots/
+texture_demos/
+examples/
 
-# 其他不必要的文件
-*.json
-!package.json
-*.xml
-*.yaml
-*.yml
+# 开发文档（保留主要文档）
+DEVELOPMENT.md
+CHANGELOG_*.md
+RELEASE_NOTES_*.md
+TODO.md
+NOTES.md
 
-# Web 前端相关
-node_modules/
-package-lock.json
-*.lock
-.cache/
-.parcel-cache/
-.next/
-.nuxt/
-.vuepress/dist/
-.serverless/
-.fusebox/
-.dynamodb/
-.tern-port
-.vscode-test
-.yarn/cache/
-.yarn/unplugged/
-.yarn/build-state.yml
-.yarn/install-state.gz
-.pnp.*
+# =============================================================================
+# 其他忽略文件
+# =============================================================================
 
-# Web 开发临时文件
-*_fixed.vue
-*_fixed.js
-*_fixed.ts
-*_fixed.jsx
-*_fixed.tsx
-web/src/*.txt
+# 压缩文件
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
+
+# 证书和密钥
+*.pem
+*.key
+*.crt
+*.p12
+
+# 大文件和媒体资源（除了必要的）
+*.mov
+*.mp4
+*.avi
+*.mkv
+*.wav
+*.mp3
+
+# 特定的图片文件（保留必要的图标和示例）
+# *.png
+# *.jpg
+# *.jpeg
+# *.gif
+# *.bmp
+# 注释掉上面的行，因为项目可能需要一些图片资源
+
+# =============================================================================
+# 项目特定忽略
+# =============================================================================
+
+# 旧版本文件
+*_old/
+*_backup/
+legacy/
+
+# 实验性功能
+experimental/
+prototype/
+
+# 性能测试结果
+benchmark/
+profiling/
