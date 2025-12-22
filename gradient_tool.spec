@@ -45,10 +45,8 @@ pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 exe = EXE(
     pyz,
     a.scripts,
-    a.binaries,
-    a.zipfiles,
-    a.datas,
     [],
+    exclude_binaries=True,  # 改为目录模式
     name='GradientTool',
     debug=False,
     bootloader_ignore_signals=False,
@@ -56,12 +54,23 @@ exe = EXE(
     upx=True,  # 使用UPX压缩（如果可用）
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=True,  # 临时开启控制台以便查看错误
+    console=False,  # 关闭控制台窗口
     disable_windowed_traceback=False,
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
     icon=None,  # 如果有图标：icon='assets/icon.ico'
+)
+
+coll = COLLECT(
+    exe,
+    a.binaries,
+    a.zipfiles,
+    a.datas,
+    strip=False,
+    upx=True,
+    upx_exclude=[],
+    name='GradientTool'
 )
 
 # macOS应用包配置（仅在macOS上生效）

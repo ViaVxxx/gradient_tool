@@ -10,7 +10,7 @@
 
 *支持多种渐变类型和专业 Perlin 噪声纹理效果*
 
-[快速开始](#-快速开始) • [功能特性](#-核心特性) • [文档](USAGE.md) • [打包指南](PACKAGING.md)
+[快速开始](#-快速开始) • [功能特性](#-核心特性) • [纹理效果](#-纹理效果快速体验)
 
 </div>
 
@@ -41,12 +41,18 @@
 
 ### 安装步骤
 
-1. **创建虚拟环境**：
+1. **克隆项目**：
+```bash
+git clone <repository-url>
+cd gradient_tool
+```
+
+2. **创建虚拟环境**：
 ```bash
 python3.11 -m venv .venv
 ```
 
-2. **激活虚拟环境**：
+3. **激活虚拟环境**：
 ```bash
 # Windows
 .venv\Scripts\activate
@@ -55,19 +61,13 @@ python3.11 -m venv .venv
 source .venv/bin/activate
 ```
 
-3. **安装依赖**：
+4. **安装依赖**：
 ```bash
-pip install -r requirements-stable.txt
+pip install -r requirements.txt
 ```
 
 ### 启动应用
 
-**方式1：使用启动脚本（推荐）**
-```bash
-python start.py
-```
-
-**方式2：直接运行主程序**
 ```bash
 python main.py
 ```
@@ -137,7 +137,6 @@ result.save("textured_gradient.png")
 
 ```
 gradient_tool/
-├── start.py                    # 启动脚本（推荐使用）
 ├── main.py                     # 主入口
 ├── demo_texture_effects.py     # 纹理效果演示生成器
 ├── apply_texture.py            # 纹理应用工具
@@ -148,47 +147,10 @@ gradient_tool/
 │   └── presets.py              # 预设库
 ├── ui/                         # UI组件
 │   └── main_window.py          # 主窗口
-├── utils/                      # 工具函数
-│   ├── export.py               # 导出功能
-│   └── history.py              # 历史记录
-└── texture_demos/              # 纹理演示图像目录
+└── utils/                      # 工具函数
+    ├── export.py               # 导出功能
+    └── history.py              # 历史记录
 ```
-
-## 📦 应用打包
-
-将项目打包为独立可执行文件，无需Python环境即可运行。
-
-### 快速打包
-
-**Windows:**
-```bash
-build_app.bat
-```
-
-**Linux/macOS:**
-```bash
-python build_app.py
-```
-
-打包完成后，可执行文件位于 `dist/` 目录：
-- Windows: `GradientTool.exe` (约25-30MB)
-- Linux: `GradientTool` (约30-35MB)
-- macOS: `Gradient Tool.app` (约35-40MB)
-
-### 详细说明
-
-查看 **[PACKAGING.md](PACKAGING.md)** 了解：
-- 详细打包步骤
-- 自定义应用图标
-- 优化打包大小
-- 常见问题解决
-- 跨平台分发指南
-
-## 📚 文档
-
-- **[USAGE.md](USAGE.md)** - 详细使用指南
-- **[TEXTURE_EFFECTS.md](TEXTURE_EFFECTS.md)** - 纹理效果完整说明
-- **[PACKAGING.md](PACKAGING.md)** - 应用打包指南
 
 ## 🔧 技术栈
 
@@ -258,8 +220,6 @@ MIT
 
 ---
 
-**项目地址**: G:/OSS/gradient_tool
-**文档更新**: 2025-12-22
 **版本**: v1.1 with Texture Effects
 
 享受创作！🎨✨
