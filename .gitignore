@@ -5,40 +5,78 @@ __pycache__/
 *.so
 .Python
 *.egg-info/
-dist/
-build/
 *.egg
 
 # 虚拟环境
-.venv/
+.venv*/
 venv/
 ENV/
 env/
 
-# PyInstaller
-# *.spec
+# 构建和打包文件
 build/
 dist/
+*.spec
+*.exe
+*.msi
+*.dmg
+*.pkg
 
-# IDE
+# 安装包相关
+installer/
+*.iss
+
+# 批处理和脚本
+*.bat
+*.sh
+build_*.py
+check_env.py
+pyi_rth_*.py
+
+# IDE 和编辑器
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
+.vs/
 
 # 操作系统
 .DS_Store
 Thumbs.db
 desktop.ini
+*.lnk
 
-# 项目特定
-texture_demos/*.png
+# 文档和演示文件
+*.md
+!README.md
+texture_demos/
+demos/
+screenshots/
+
+# 日志和临时文件
 *.log
-
-# 临时文件
 *.tmp
 *.bak
 *.backup
 *_old.*
+*_backup.*
 test_*.png
+temp_*.png
+
+# 配置文件
+*.ini
+*.cfg
+*.conf
+!requirements.txt
+
+# 资源文件（如果不需要）
+assets/
+icons/
+*.ico
+*.icns
+
+# 测试文件
+test_*.py
+*_test.py
+tests/
