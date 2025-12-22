@@ -50,8 +50,8 @@ Pillow >= 8.0.0
 
 1. **克隆项目**
 ```bash
-git clone https://github.com/your-username/gradient-tool.git
-cd gradient-tool
+git clone https://github.com/ViaVxxx/gradient_tool.git
+cd gradient_tool
 ```
 
 2. **安装依赖**
@@ -91,7 +91,7 @@ python main.py
 ## 🏗️ 项目架构
 
 ```
-gradient-tool/
+gradient_tool/
 ├── 📄 main.py                  # 应用程序入口
 ├── 📄 requirements.txt         # 项目依赖
 ├── 📁 core/                    # 核心功能模块
