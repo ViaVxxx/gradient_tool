@@ -13,7 +13,7 @@ venv/
 ENV/
 env/
 
-# 构建和打包文件
+# 构建和打包相关
 build/
 dist/
 *.spec
@@ -21,8 +21,6 @@ dist/
 *.msi
 *.dmg
 *.pkg
-
-# 安装包相关
 installer/
 *.iss
 
@@ -47,9 +45,10 @@ Thumbs.db
 desktop.ini
 *.lnk
 
-# 文档和演示文件
-*.md
-!README.md
+# 文档和演示文件（保留核心文档）
+RELEASE_NOTES_*.md
+TEXTURE_EFFECTS.md
+USAGE.md
 texture_demos/
 demos/
 screenshots/
@@ -68,15 +67,29 @@ temp_*.png
 *.ini
 *.cfg
 *.conf
-!requirements.txt
 
-# 资源文件（如果不需要）
+# 资源和媒体文件
 assets/
 icons/
 *.ico
 *.icns
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
 
 # 测试文件
 test_*.py
 *_test.py
 tests/
+
+# 收藏夹数据（用户生成的内容）
+favorites/
+
+# 其他不必要的文件
+*.json
+!package.json
+*.xml
+*.yaml
+*.yml
