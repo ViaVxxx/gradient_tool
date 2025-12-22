@@ -30,10 +30,15 @@ installer/
 build_*.py
 check_env.py
 pyi_rth_*.py
+runtime_hook.py
+start_web.py
+start_web_en.bat
+run_debug.bat
 
 # IDE 和编辑器
 .vscode/
 .idea/
+.kiro/
 *.swp
 *.swo
 *~
@@ -93,3 +98,31 @@ favorites/
 *.xml
 *.yaml
 *.yml
+
+# Web 前端相关
+node_modules/
+package-lock.json
+*.lock
+.cache/
+.parcel-cache/
+.next/
+.nuxt/
+.vuepress/dist/
+.serverless/
+.fusebox/
+.dynamodb/
+.tern-port
+.vscode-test
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# Web 开发临时文件
+*_fixed.vue
+*_fixed.js
+*_fixed.ts
+*_fixed.jsx
+*_fixed.tsx
+web/src/*.txt

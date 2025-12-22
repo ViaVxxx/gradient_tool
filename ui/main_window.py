@@ -90,6 +90,21 @@ class MainWindow:
 
     def _setup_ui(self):
         """Setup the user interface."""
+        # Notification bar at the top
+        self.notification_frame = ttk.Frame(self.root)
+        self.notification_frame.pack(fill=tk.X, padx=10, pady=(10, 0))
+        
+        # Notification label (initially hidden)
+        self.notification_label = ttk.Label(
+            self.notification_frame, 
+            text="", 
+            font=("Arial", 9),
+            foreground="white",
+            background="#10b981",  # Success green
+            padding=(10, 5)
+        )
+        # Don't pack it initially - it will be shown when needed
+        
         # Main container
         main_container = ttk.Frame(self.root)
         main_container.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
@@ -310,9 +325,11 @@ class MainWindow:
 
         # Apply theme to favorites canvas
         if self.current_theme == 'dark':
+            from ui.themes import DarkTheme
             self.favorites_canvas.configure(bg=DarkTheme.COLORS['base_200'])
         else:
-            self.favorites_canvas.configure(bg='#f0f0f0')
+            from ui.themes import LightTheme
+            self.favorites_canvas.configure(bg=LightTheme.COLORS['base_200'])
 
         # Configure favorites scrolling
         def update_fav_scroll_region(event):
@@ -406,15 +423,15 @@ Ctrl+Y - 重做"""
     def add_to_favorites(self):
         """Add current gradient to favorites."""
         if self.current_image is None:
-            messagebox.showwarning("警告", "没有可收藏的图像")
+            self.show_notification("没有可收藏的图像", "warning")
             return
 
         try:
             favorite_id = self.favorites_manager.add_favorite(self.current_image, self.state)
             self.refresh_favorites_display()
-            messagebox.showinfo("成功", "已添加到收藏")
+            self.show_notification("✓ 已添加到收藏", "success")
         except Exception as e:
-            messagebox.showerror("错误", f"收藏失败: {e}")
+            self.show_notification(f"收藏失败: {e}", "error")
 
     def remove_selected_favorites(self):
         """Remove selected favorites."""
@@ -591,6 +608,15 @@ Ctrl+Y - 重做"""
 
     def _force_theme_update(self):
         """Force theme update for all widgets."""
+        # Import theme classes
+        from ui.themes import DarkTheme, LightTheme
+        
+        # Get current theme colors
+        if self.current_theme == 'dark':
+            colors = DarkTheme.COLORS
+        else:
+            colors = LightTheme.COLORS
+        
         def update_widget_theme(widget):
             """Recursively update theme for widget and its children."""
             try:
@@ -598,38 +624,33 @@ Ctrl+Y - 重做"""
                 widget_class = widget.winfo_class()
                 
                 if widget_class in ['TEntry', 'Entry']:
-                    if self.current_theme == 'dark':
-                        widget.configure(
-                            bg=DarkTheme.COLORS['base_200'],
-                            fg=DarkTheme.COLORS['base_content'],
-                            insertbackground=DarkTheme.COLORS['base_content'],
-                            selectbackground=DarkTheme.COLORS['primary'],
-                            selectforeground=DarkTheme.COLORS['primary_content']
-                        )
+                    widget.configure(
+                        bg=colors['base_200'],
+                        fg=colors['base_content'],
+                        insertbackground=colors['base_content'],
+                        selectbackground=colors['primary'],
+                        selectforeground=colors['primary_content']
+                    )
                 elif widget_class in ['TButton', 'Button']:
-                    if self.current_theme == 'dark':
-                        widget.configure(
-                            bg=DarkTheme.COLORS['base_200'],
-                            fg=DarkTheme.COLORS['base_content'],
-                            activebackground=DarkTheme.COLORS['base_300'],
-                            activeforeground=DarkTheme.COLORS['base_content']
-                        )
+                    widget.configure(
+                        bg=colors['base_100'],
+                        fg=colors['base_content'],
+                        activebackground=colors['base_300'],
+                        activeforeground=colors['base_content']
+                    )
                 elif widget_class in ['TCombobox', 'Combobox']:
-                    if self.current_theme == 'dark':
-                        widget.configure(
-                            fieldbackground=DarkTheme.COLORS['base_200'],
-                            foreground=DarkTheme.COLORS['base_content'],
-                            selectbackground=DarkTheme.COLORS['primary']
-                        )
+                    widget.configure(
+                        fieldbackground=colors['base_100'],
+                        foreground=colors['base_content'],
+                        selectbackground=colors['primary']
+                    )
                 elif widget_class in ['TLabel', 'Label']:
-                    if self.current_theme == 'dark':
-                        widget.configure(
-                            background=DarkTheme.COLORS['base_100'],
-                            foreground=DarkTheme.COLORS['base_content']
-                        )
+                    widget.configure(
+                        background=colors['base_100'],
+                        foreground=colors['base_content']
+                    )
                 elif widget_class in ['TFrame', 'Frame']:
-                    if self.current_theme == 'dark':
-                        widget.configure(background=DarkTheme.COLORS['base_100'])
+                    widget.configure(background=colors['base_100'])
                 
                 # Recursively update children
                 for child in widget.winfo_children():
@@ -644,26 +665,35 @@ Ctrl+Y - 重做"""
 
     def _force_scrollbar_theme_update(self):
         """Force update scrollbar themes by recreating them."""
+        # Import theme classes
+        from ui.themes import DarkTheme, LightTheme
+        
         # This is a workaround for Windows where ttk.Scrollbar theming doesn't always work
         try:
             # Force style update
             style = ttk.Style()
             if self.current_theme == 'dark':
+                colors = DarkTheme.COLORS
                 # Apply dark scrollbar colors more aggressively
                 style.configure('TScrollbar',
-                               background=DarkTheme.COLORS['base_200'],
-                               troughcolor=DarkTheme.COLORS['base_100'],
+                               background=colors['base_200'],
+                               troughcolor=colors['base_100'],
                                borderwidth=1,
                                relief='flat',
-                               arrowcolor=DarkTheme.COLORS['base_content'])
-                
-                # Try to force update existing scrollbars
-                for widget in [self.fav_scrollbar]:
-                    if hasattr(self, 'fav_scrollbar'):
-                        widget.configure(style='TScrollbar')
+                               arrowcolor=colors['base_content'])
             else:
-                # Reset to default for light theme
-                style.configure('TScrollbar')
+                colors = LightTheme.COLORS
+                # Apply light scrollbar colors
+                style.configure('TScrollbar',
+                               background=colors['base_300'],
+                               troughcolor=colors['base_200'],
+                               borderwidth=0,
+                               relief='flat',
+                               arrowcolor=colors['neutral'])
+                
+            # Try to force update existing scrollbars
+            if hasattr(self, 'fav_scrollbar'):
+                self.fav_scrollbar.configure(style='TScrollbar')
         except Exception as e:
             print(f"Scrollbar theme update failed: {e}")
 
@@ -682,23 +712,13 @@ Ctrl+Y - 重做"""
         self.theme_class.configure_canvas(self.canvas)
         self.theme_class.configure_listbox(self.preset_listbox)
         
-        # Update right panel canvas (find it in the right panel)
-        for widget in self.root.winfo_children():
-            if isinstance(widget, ttk.Frame):  # main_container
-                for child in widget.winfo_children():
-                    if isinstance(child, ttk.Frame) and child.winfo_width() == 260:  # right panel
-                        for canvas_widget in child.winfo_children():
-                            if isinstance(canvas_widget, tk.Canvas) and canvas_widget != self.favorites_canvas:
-                                if self.current_theme == 'dark':
-                                    canvas_widget.configure(bg=DarkTheme.COLORS['base_100'])
-                                else:
-                                    canvas_widget.configure(bg='white')
-        
-        # Update favorites canvas
+        # Update favorites canvas with theme-appropriate colors
         if self.current_theme == 'dark':
+            from ui.themes import DarkTheme
             self.favorites_canvas.configure(bg=DarkTheme.COLORS['base_200'])
         else:
-            self.favorites_canvas.configure(bg='#f0f0f0')
+            from ui.themes import LightTheme
+            self.favorites_canvas.configure(bg=LightTheme.COLORS['base_200'])
         
         # Update theme button text
         new_text = "🌙 深色" if self.current_theme == 'light' else "☀️ 浅色"
@@ -1113,6 +1133,41 @@ Ctrl+Y - 重做"""
         self.update_stop_combo()
         self.on_type_change()
         self.render_gradient()
+
+    def show_notification(self, message, notification_type="success", duration=3000):
+        """Show a notification at the top of the window.
+        
+        Args:
+            message: The message to display
+            notification_type: "success", "error", "warning", or "info"
+            duration: How long to show the notification in milliseconds
+        """
+        # Color mapping for different notification types
+        colors = {
+            "success": "#10b981",  # Green
+            "error": "#ef4444",    # Red
+            "warning": "#f59e0b",  # Orange
+            "info": "#3b82f6"      # Blue
+        }
+        
+        # Configure the notification label
+        self.notification_label.configure(
+            text=message,
+            background=colors.get(notification_type, colors["info"])
+        )
+        
+        # Show the notification
+        self.notification_label.pack(fill=tk.X, pady=(0, 5))
+        
+        # Hide after duration
+        if hasattr(self, '_notification_timer'):
+            self.root.after_cancel(self._notification_timer)
+        
+        self._notification_timer = self.root.after(duration, self.hide_notification)
+    
+    def hide_notification(self):
+        """Hide the notification."""
+        self.notification_label.pack_forget()
 
 
 def main():

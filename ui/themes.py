@@ -194,14 +194,190 @@ class DarkTheme:
 
 
 class LightTheme:
-    """Light theme (default)."""
+    """Modern light theme with beautiful colors."""
     
+    # Modern light theme color palette
+    COLORS = {
+        # Base colors - soft whites and grays
+        'base_100': '#ffffff',      # Pure white
+        'base_200': '#f8fafc',      # Very light gray
+        'base_300': '#e2e8f0',      # Light gray
+        'base_content': '#1e293b',  # Dark slate
+        
+        # Accent colors - modern and vibrant
+        'primary': '#3b82f6',       # Blue
+        'primary_content': '#ffffff',
+        'secondary': '#8b5cf6',     # Purple
+        'secondary_content': '#ffffff',
+        'accent': '#06b6d4',        # Cyan
+        'accent_content': '#ffffff',
+        
+        # Status colors
+        'info': '#0ea5e9',          # Sky blue
+        'success': '#10b981',       # Emerald
+        'warning': '#f59e0b',       # Amber
+        'error': '#ef4444',         # Red
+        
+        # Neutral
+        'neutral': '#64748b',       # Slate
+        'neutral_content': '#ffffff',
+        
+        # Borders and shadows
+        'border': '#cbd5e1',        # Light border
+        'shadow': 'rgba(0, 0, 0, 0.1)',  # Subtle shadow
+    }
+
     @classmethod
     def apply_to_root(cls, root):
-        """Apply light theme to root window."""
-        # Reset to default theme
+        """Apply modern light theme to root window."""
+        root.configure(bg=cls.COLORS['base_200'])
+        
+        # Configure ttk styles
         style = ttk.Style()
-        style.theme_use('default')
+        
+        # Use clam theme as base for better customization
+        try:
+            style.theme_use('clam')
+        except:
+            style.theme_use('default')
+
+        # Configure global options
+        root.option_add('*Background', cls.COLORS['base_100'])
+        root.option_add('*Foreground', cls.COLORS['base_content'])
+        root.option_add('*selectBackground', cls.COLORS['primary'])
+        root.option_add('*selectForeground', cls.COLORS['primary_content'])
+        root.option_add('*insertBackground', cls.COLORS['base_content'])
+        
+        # Configure Frame with subtle background
+        style.configure('TFrame', 
+                       background=cls.COLORS['base_200'],
+                       borderwidth=0)
+        
+        # Configure LabelFrame with modern styling
+        style.configure('TLabelframe', 
+                       background=cls.COLORS['base_100'],
+                       foreground=cls.COLORS['base_content'],
+                       borderwidth=1,
+                       relief='solid',
+                       bordercolor=cls.COLORS['border'])
+        style.configure('TLabelframe.Label',
+                       background=cls.COLORS['base_100'],
+                       foreground=cls.COLORS['primary'],
+                       font=('Segoe UI', 9, 'bold'))
+        
+        # Configure Label with modern font
+        style.configure('TLabel',
+                       background=cls.COLORS['base_100'],
+                       foreground=cls.COLORS['base_content'],
+                       font=('Segoe UI', 9))
+        
+        # Configure Button with modern flat design
+        style.configure('TButton',
+                       background=cls.COLORS['base_100'],
+                       foreground=cls.COLORS['base_content'],
+                       borderwidth=1,
+                       focuscolor='none',
+                       relief='flat',
+                       padding=(12, 8),
+                       font=('Segoe UI', 9))
+        style.map('TButton',
+                 background=[('active', cls.COLORS['base_300']),
+                           ('pressed', cls.COLORS['primary'])],
+                 foreground=[('pressed', cls.COLORS['primary_content'])],
+                 bordercolor=[('active', cls.COLORS['primary']),
+                            ('focus', cls.COLORS['primary'])])
+        
+        # Configure Entry with modern styling
+        style.configure('TEntry',
+                       fieldbackground=cls.COLORS['base_100'],
+                       foreground=cls.COLORS['base_content'],
+                       borderwidth=1,
+                       insertcolor=cls.COLORS['base_content'],
+                       selectbackground=cls.COLORS['primary'],
+                       selectforeground=cls.COLORS['primary_content'],
+                       relief='flat',
+                       padding=(8, 6),
+                       font=('Segoe UI', 9))
+        style.map('TEntry',
+                 fieldbackground=[('focus', cls.COLORS['base_100'])],
+                 bordercolor=[('focus', cls.COLORS['primary']),
+                            ('!focus', cls.COLORS['border'])])
+        
+        # Configure Combobox with modern styling
+        style.configure('TCombobox',
+                       fieldbackground=cls.COLORS['base_100'],
+                       foreground=cls.COLORS['base_content'],
+                       borderwidth=1,
+                       selectbackground=cls.COLORS['primary'],
+                       selectforeground=cls.COLORS['primary_content'],
+                       arrowcolor=cls.COLORS['neutral'],
+                       relief='flat',
+                       padding=(8, 6),
+                       font=('Segoe UI', 9))
+        style.map('TCombobox',
+                 fieldbackground=[('readonly', cls.COLORS['base_100']),
+                                ('focus', cls.COLORS['base_100'])],
+                 bordercolor=[('focus', cls.COLORS['primary']),
+                            ('!focus', cls.COLORS['border'])],
+                 arrowcolor=[('active', cls.COLORS['primary'])])
+        
+        # Configure Combobox dropdown
+        root.option_add('*TCombobox*Listbox.Background', cls.COLORS['base_100'])
+        root.option_add('*TCombobox*Listbox.Foreground', cls.COLORS['base_content'])
+        root.option_add('*TCombobox*Listbox.selectBackground', cls.COLORS['primary'])
+        root.option_add('*TCombobox*Listbox.selectForeground', cls.COLORS['primary_content'])
+        root.option_add('*TCombobox*Listbox.Font', 'Segoe UI 9')
+        
+        # Configure Scale with modern colors
+        style.configure('TScale',
+                       background=cls.COLORS['base_100'],
+                       troughcolor=cls.COLORS['base_300'],
+                       borderwidth=0,
+                       lightcolor=cls.COLORS['primary'],
+                       darkcolor=cls.COLORS['primary'],
+                       sliderlength=20)
+        
+        # Configure Radiobutton with modern styling
+        style.configure('TRadiobutton',
+                       background=cls.COLORS['base_100'],
+                       foreground=cls.COLORS['base_content'],
+                       focuscolor='none',
+                       font=('Segoe UI', 9))
+        style.map('TRadiobutton',
+                 background=[('active', cls.COLORS['base_200'])],
+                 indicatorcolor=[('selected', cls.COLORS['primary']),
+                               ('!selected', cls.COLORS['base_300'])])
+        
+        # Configure Scrollbar with modern flat design
+        style.configure('TScrollbar',
+                       background=cls.COLORS['base_300'],
+                       troughcolor=cls.COLORS['base_200'],
+                       borderwidth=0,
+                       relief='flat',
+                       arrowcolor=cls.COLORS['neutral'],
+                       darkcolor=cls.COLORS['base_300'],
+                       lightcolor=cls.COLORS['base_300'])
+        
+        # Map scrollbar states
+        style.map('TScrollbar',
+                 background=[('active', cls.COLORS['primary']),
+                           ('pressed', cls.COLORS['primary'])],
+                 arrowcolor=[('active', cls.COLORS['primary_content'])])
+        
+        # Configure vertical and horizontal scrollbars
+        try:
+            style.configure('Vertical.TScrollbar',
+                           background=cls.COLORS['base_300'],
+                           troughcolor=cls.COLORS['base_200'],
+                           borderwidth=0,
+                           arrowcolor=cls.COLORS['neutral'])
+            style.configure('Horizontal.TScrollbar',
+                           background=cls.COLORS['base_300'],
+                           troughcolor=cls.COLORS['base_200'],
+                           borderwidth=0,
+                           arrowcolor=cls.COLORS['neutral'])
+        except:
+            pass
 
     @classmethod
     def configure_canvas(cls, canvas):
@@ -211,11 +387,15 @@ class LightTheme:
 
     @classmethod
     def configure_listbox(cls, listbox):
-        """Configure listbox with light theme."""
-        listbox.configure(bg='white',
-                         fg='black',
-                         selectbackground='#0078d4',
-                         selectforeground='white')
+        """Configure listbox with modern light theme."""
+        listbox.configure(bg=cls.COLORS['base_100'],
+                         fg=cls.COLORS['base_content'],
+                         selectbackground=cls.COLORS['primary'],
+                         selectforeground=cls.COLORS['primary_content'],
+                         borderwidth=1,
+                         relief='flat',
+                         highlightthickness=0,
+                         font=('Segoe UI', 9))
 
 
 def apply_theme(root, theme_name='light'):

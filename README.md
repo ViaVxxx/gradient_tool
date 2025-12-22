@@ -1,6 +1,6 @@
-# Gradient Tool - 渐变色图像生成器
-
 <div align="center">
+
+<h1>Gradient Tool - 渐变色图像生成器</h1>
 
 ![Python](https://img.shields.io/badge/Python-3.7+-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
@@ -39,14 +39,73 @@
 
 ## 🚀 快速开始
 
-### 环境要求
+> **提示**: 本项目提供两个版本：Web 版本（推荐）和 Tkinter 桌面版本
+
+### 🌐 Web 版本（推荐）
+
+**现代化 Web 界面，支持玻璃态设计、复杂阴影和圆角效果**
+
+#### 环境要求
+```
+Python 3.7+
+Node.js 16+
+PyWebView
+```
+
+#### 快速启动
+
+**方式 1：使用 Python 启动脚本（推荐）**
+```bash
+# 克隆项目
+git clone https://github.com/ViaVxxx/gradient_tool.git
+cd gradient_tool
+
+# 运行启动脚本（自动检查并安装依赖）
+python start_web.py
+```
+
+**方式 2：使用批处理文件（Windows）**
+```bash
+start_web_en.bat
+```
+
+**方式 3：手动启动**
+```bash
+# 安装 Python 依赖
+pip install -r requirements-web.txt
+
+# 安装前端依赖
+cd web
+npm install
+
+# 启动前端开发服务器（新终端）
+npm run dev
+
+# 启动 Python 后端（新终端）
+python main_web.py
+```
+
+#### Web 版本特性
+- ✨ **现代化 UI**: 玻璃态设计、复杂阴影、圆角效果
+- 🎨 **Vue 3 + TailwindCSS**: 响应式、流畅的用户体验
+- 🔥 **热重载**: 开发模式支持代码热更新
+- 📦 **小体积**: 比 Electron 打包体积更小（~30-35MB）
+- 🚀 **跨平台**: Windows、macOS、Linux 全平台支持
+
+---
+
+### 🖥️ Tkinter 桌面版本
+
+**经典桌面应用，稳定可靠**
+
+#### 环境要求
 ```
 Python 3.7+
 tkinter (Python 内置)
 Pillow >= 8.0.0
 ```
 
-### 安装步骤
+#### 安装步骤
 
 1. **克隆项目**
 ```bash
