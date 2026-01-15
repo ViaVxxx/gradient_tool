@@ -225,3 +225,13 @@ prototype/
 benchmark/
 profiling/
 .ace-tool/
+# Claude AI 配置
+.claude/
+
+# Rust 构建产物
+src-wasm/target/
+src-wasm/pkg/
+
+# Tauri 构建产物
+web-version/web/src-tauri/target/
+web-version/web/src/wasm-pkg/
