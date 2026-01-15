@@ -1,8 +1,8 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
-  "productName": "gradient-tool-web",
-  "version": "0.1.0",
-  "identifier": "com.tauri.dev",
+  "productName": "Gradient Studio",
+  "version": "2.0.0",
+  "identifier": "com.viavxxx.gradientstudio",
   "build": {
     "frontendDist": "../dist",
     "devUrl": "http://localhost:5173",
@@ -12,9 +12,9 @@
   "app": {
     "windows": [
       {
-        "title": "gradient-tool-web",
-        "width": 800,
-        "height": 600,
+        "title": "Gradient Studio",
+        "width": 1600,
+        "height": 900,
         "resizable": true,
         "fullscreen": false
       }
