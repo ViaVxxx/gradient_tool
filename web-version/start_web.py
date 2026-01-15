@@ -39,7 +39,9 @@ def check_frontend_deps():
     """检查并安装前端依赖"""
     print("\n[2/4] 检查前端依赖...")
 
-    web_dir = Path('web')
+    # 获取当前脚本所在目录
+    script_dir = Path(__file__).parent
+    web_dir = script_dir / 'web'
     node_modules = web_dir / 'node_modules'
 
     if not node_modules.exists():
@@ -47,7 +49,9 @@ def check_frontend_deps():
         print("这可能需要几分钟，请耐心等待...\n")
 
         try:
-            subprocess.run(['npm', 'install'],
+            # Windows 上使用 npm.cmd
+            npm_cmd = 'npm.cmd' if os.name == 'nt' else 'npm'
+            subprocess.run([npm_cmd, 'install'],
                          cwd=str(web_dir),
                          check=True)
             print("\n✓ 前端依赖安装完成")
@@ -86,14 +90,18 @@ def start_dev_mode():
     print("\n终端 1: 启动前端开发服务器")
     print("终端 2: 启动 Python 后端\n")
 
+    # 获取当前脚本所在目录
+    script_dir = Path(__file__).parent
+    web_dir = script_dir / 'web'
+
     # 启动前端开发服务器（新窗口）
     if sys.platform == 'win32':
-        subprocess.Popen(['start', 'cmd', '/k', 'cd web && npm run dev'],
+        subprocess.Popen(['start', 'cmd', '/k', f'cd {web_dir} && npm.cmd run dev'],
                         shell=True)
     else:
         # macOS/Linux
         subprocess.Popen(['npm', 'run', 'dev'],
-                        cwd='web',
+                        cwd=str(web_dir),
                         stdout=subprocess.PIPE,
                         stderr=subprocess.PIPE)
 
@@ -110,11 +118,15 @@ def start_prod_mode():
     """启动生产模式"""
     print("\n启动生产模式...")
 
+    # 获取当前脚本所在目录
+    script_dir = Path(__file__).parent
+    web_dir = script_dir / 'web'
+
     # 构建前端
     print("\n正在构建前端...")
     try:
         subprocess.run(['npm', 'run', 'build'],
-                      cwd='web',
+                      cwd=str(web_dir),
                       check=True)
         print("✓ 前端构建完成")
     except subprocess.CalledProcessError:

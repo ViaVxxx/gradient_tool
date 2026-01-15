@@ -1,0 +1,1 @@
+G:\OSS\gradient_tool\src-wasm\target\wasm32-unknown-unknown\debug\libgradient_wasm.rlib: G:\OSS\gradient_tool\src-wasm\src\color.rs G:\OSS\gradient_tool\src-wasm\src\effects.rs G:\OSS\gradient_tool\src-wasm\src\gradient.rs G:\OSS\gradient_tool\src-wasm\src\lib.rs

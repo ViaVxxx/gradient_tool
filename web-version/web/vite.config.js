@@ -1,8 +1,14 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import wasm from 'vite-plugin-wasm'
+import topLevelAwait from 'vite-plugin-top-level-await'
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    wasm(),
+    topLevelAwait(),
+  ],
   server: {
     port: 5173,
     strictPort: true,
@@ -10,11 +16,15 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-      },
+    target: 'esnext', // WASM 需要
+    minify: 'esbuild', // 比 terser 更快
+  },
+  resolve: {
+    alias: {
+      '@': '/src',
     },
   },
+  // Tauri 配置
+  clearScreen: false,
+  envPrefix: ['VITE_', 'TAURI_'],
 })

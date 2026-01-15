@@ -224,3 +224,4 @@ prototype/
 # 性能测试结果
 benchmark/
 profiling/
+.ace-tool/

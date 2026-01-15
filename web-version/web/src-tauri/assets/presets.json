@@ -1,0 +1,43 @@
+[
+  {
+    "name": "Ocean Breeze",
+    "category": "ocean",
+    "gradient_type": "linear",
+    "angle": 90,
+    "stops": [
+      { "position": 0, "color": { "r": 42, "g": 123, "b": 155 } },
+      { "position": 1, "color": { "r": 143, "g": 207, "b": 114 } }
+    ]
+  },
+  {
+    "name": "Sunset Glow",
+    "category": "sunset",
+    "gradient_type": "linear",
+    "angle": 45,
+    "stops": [
+      { "position": 0, "color": { "r": 255, "g": 94, "b": 77 } },
+      { "position": 0.5, "color": { "r": 255, "g": 154, "b": 158 } },
+      { "position": 1, "color": { "r": 250, "g": 208, "b": 196 } }
+    ]
+  },
+  {
+    "name": "Forest Dream",
+    "category": "nature",
+    "gradient_type": "radial",
+    "angle": 0,
+    "stops": [
+      { "position": 0, "color": { "r": 76, "g": 161, "b": 175 } },
+      { "position": 1, "color": { "r": 196, "g": 224, "b": 229 } }
+    ]
+  },
+  {
+    "name": "Purple Haze",
+    "category": "abstract",
+    "gradient_type": "linear",
+    "angle": 135,
+    "stops": [
+      { "position": 0, "color": { "r": 102, "g": 126, "b": 234 } },
+      { "position": 1, "color": { "r": 118, "g": 75, "b": 162 } }
+    ]
+  }
+]

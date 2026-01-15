@@ -70,8 +70,8 @@ class Effects:
         """Apply noise/grain effect to image."""
         width, height = image.size
         pixels = image.load()
-        noisy_image = image.copy()
-        noisy_pixels = noisy_image.load()
+        # 直接在原图上操作，避免不必要的 copy
+        noisy_pixels = pixels
         noise_range = int(255 * intensity)
 
         for y in range(height):
@@ -83,8 +83,8 @@ class Effects:
                 noisy_pixels[x, y] = (r, g, b)
 
         if grain_size > 1:
-            noisy_image = noisy_image.filter(ImageFilter.GaussianBlur(radius=grain_size * 0.3))
-        return noisy_image
+            image = image.filter(ImageFilter.GaussianBlur(radius=grain_size * 0.3))
+        return image
 
     @staticmethod
     def apply_perlin_noise(image: Image.Image, intensity: float = 0.15,
@@ -93,8 +93,8 @@ class Effects:
         width, height = image.size
         pixels = image.load()
         perlin = PerlinNoise(seed=random.randint(0, 10000))
-        noise_map = {}
 
+        # 直接修改原图像素，避免创建中间副本
         for y in range(height):
             for x in range(width):
                 noise_val = 0
@@ -111,21 +111,15 @@ class Effects:
                     frequency *= 2.0
 
                 noise_val /= max_val
-                noise_map[(x, y)] = noise_val
 
-        result = image.copy()
-        result_pixels = result.load()
-
-        for y in range(height):
-            for x in range(width):
                 r, g, b = pixels[x, y]
-                noise = noise_map[(x, y)] * intensity * 255
+                noise = noise_val * intensity * 255
                 r = int(max(0, min(255, r + noise)))
                 g = int(max(0, min(255, g + noise)))
                 b = int(max(0, min(255, b + noise)))
-                result_pixels[x, y] = (r, g, b)
+                pixels[x, y] = (r, g, b)
 
-        return result
+        return image
 
     @staticmethod
     def apply_frosted_glass(image: Image.Image, intensity: float = 0.2,
@@ -142,8 +136,6 @@ class Effects:
         """Apply granular/sandy texture."""
         width, height = image.size
         pixels = image.load()
-        result = image.copy()
-        result_pixels = result.load()
 
         for y in range(height):
             for x in range(width):
@@ -153,11 +145,11 @@ class Effects:
                     r = max(0, min(255, r + grain_offset))
                     g = max(0, min(255, g + grain_offset + random.randint(-10, 10)))
                     b = max(0, min(255, b + grain_offset + random.randint(-10, 10)))
-                    result_pixels[x, y] = (r, g, b)
+                    pixels[x, y] = (r, g, b)
 
         if grain_size > 1:
-            result = result.filter(ImageFilter.GaussianBlur(radius=grain_size * 0.2))
-        return result
+            image = image.filter(ImageFilter.GaussianBlur(radius=grain_size * 0.2))
+        return image
 
     @staticmethod
     def apply_film_grain(image: Image.Image, intensity: float = 0.2,
@@ -171,12 +163,11 @@ class Effects:
     def apply_layered_noise(image: Image.Image, layers: int = 3,
                            base_intensity: float = 0.15) -> Image.Image:
         """Apply multiple layers of noise for rich texture."""
-        result = image.copy()
         for i in range(layers):
             scale = 30 + i * 20
             intensity = base_intensity * (1.0 - i * 0.25)
-            result = Effects.apply_perlin_noise(result, intensity=intensity, scale=scale, octaves=2)
-        return result
+            image = Effects.apply_perlin_noise(image, intensity=intensity, scale=scale, octaves=2)
+        return image
 
     @staticmethod
     def apply_vignette(image: Image.Image, intensity: float = 0.5,
