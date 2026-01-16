@@ -235,3 +235,12 @@ src-wasm/pkg/
 # Tauri 构建产物
 web-version/web/src-tauri/target/
 web-version/web/src/wasm-pkg/
+
+# 临时文件和目录
+nul
+.serena/
+
+# 临时文档（非正式）
+DELIVERY_CHECKLIST.md
+UI_OPTIMIZATION_REPORT*.md
+UI_REFACTOR_REPORT.md
