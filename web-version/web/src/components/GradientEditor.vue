@@ -20,9 +20,9 @@
         @update:angle="angle = $event" />
     </section>
 
-    <!-- 底部：双栏布局 (列表 + 拾色器) -->
-    <section class="editor-panel grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
-      <!-- 左侧：色标列表 -->
+    <!-- 底部：单栏布局 (列表在上，拾色器在下) -->
+    <section class="editor-panel flex flex-col gap-6">
+      <!-- 色标列表 -->
       <div class="stops-section">
         <StopsList
           :stops="colorStops"
@@ -33,7 +33,7 @@
           @add="addStop" />
       </div>
 
-      <!-- 右侧：拾色器 -->
+      <!-- 拾色器 -->
       <div class="picker-section">
         <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">颜色编辑器</h4>
         <ColorPicker
@@ -134,12 +134,3 @@ function updateStopAlpha(alpha) {
   colorStops.value[selectedColorStopIndex.value].alpha = alpha
 }
 </script>
-
-<style scoped>
-/* 响应式适配 */
-@media (max-width: 1023px) {
-  .editor-panel {
-    grid-template-columns: 1fr;
-  }
-}
-</style>

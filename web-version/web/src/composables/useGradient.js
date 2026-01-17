@@ -332,27 +332,11 @@ function resetToOriginalImage() {
   state.previewMode = 'image'
 }
 
-// 切换全屏模式（增强方案 B）
-async function toggleFullscreen() {
-  const next = !state.isFullscreen
-
-  try {
-    // Tauri 环境
-    if (window.__TAURI__?.window) {
-      const { appWindow } = await import('@tauri-apps/api/window')
-      await appWindow.setFullscreen(next)
-    }
-    // 浏览器环境
-    else if (next) {
-      await document.documentElement.requestFullscreen()
-    } else if (document.fullscreenElement) {
-      await document.exitFullscreen()
-    }
-
-    state.isFullscreen = next
-  } catch (error) {
-    console.error('全屏切换失败:', error)
-  }
+// 切换全屏模式（改为 Zen Mode - 窗口内沉浸模式）
+function toggleFullscreen() {
+  // 仅切换 isPureMode 状态，不调用系统全屏
+  // Sidebar 和 Toolbar 通过 CSS 响应 isPureMode 变化
+  state.isPureMode = !state.isPureMode
 }
 
 // 导出 composable

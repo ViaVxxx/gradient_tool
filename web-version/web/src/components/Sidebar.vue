@@ -1,9 +1,9 @@
 <template>
   <aside
-    class="w-80 h-full bg-white/80 dark:bg-slate-900/50 backdrop-blur-2xl border-r border-white/10 shadow-[4px_0_24px_rgba(0,0,0,0.2)] overflow-y-auto no-scrollbar sidebar-transition fixed lg:relative z-30"
-    :class="{ 
+    class="w-80 h-full bg-white/80 dark:bg-slate-900/50 backdrop-blur-2xl border-r border-white/10 shadow-[4px_0_24px_rgba(0,0,0,0.2)] overflow-y-auto overflow-x-hidden no-scrollbar sidebar-transition fixed lg:relative z-30"
+    :class="{
       '-translate-x-full': isPureMode || !isSidebarOpen,
-      'lg:-ml-80': isPureMode || !isSidebarOpen 
+      'lg:-ml-80': isPureMode || !isSidebarOpen
     }">
 
     <!-- Header -->
@@ -22,7 +22,7 @@
     </div>
 
     <!-- Content Sections -->
-    <div class="p-4 space-y-4">
+    <div class="px-6 py-4 space-y-4">
 
       <!-- 色标编辑 - 使用新的 GradientEditor -->
       <section class="space-y-3 animate-slide-in-left" style="animation-delay: 0.1s">
